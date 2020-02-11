@@ -14,10 +14,13 @@ import ShareIcon from '../icons/share';
 import SidebarIcon from '../icons/sidebar';
 import { toggleEditMode } from '../state/ui/actions';
 
+import { closeNote } from '../state/ui/actions';
+
 import * as S from '../state';
 import * as T from '../types';
 
 type DispatchProps = {
+  closeNote: () => any;
   toggleEditMode: () => any;
 };
 
@@ -37,7 +40,6 @@ export class NoteToolbar extends Component<Props> {
     onDeleteNoteForever: PropTypes.func,
     onShowRevisions: PropTypes.func,
     onShareNote: PropTypes.func,
-    onCloseNote: PropTypes.func,
     onShowNoteInfo: PropTypes.func,
     setIsViewingRevisions: PropTypes.func,
     toggleFocusMode: PropTypes.func.isRequired,
@@ -45,7 +47,6 @@ export class NoteToolbar extends Component<Props> {
   };
 
   static defaultProps = {
-    onCloseNote: noop,
     onDeleteNoteForever: noop,
     onRestoreNote: noop,
     onShowNoteInfo: noop,
@@ -91,7 +92,7 @@ export class NoteToolbar extends Component<Props> {
           <div className="note-toolbar__button note-toolbar-back">
             <IconButton
               icon={<BackIcon />}
-              onClick={this.props.onCloseNote}
+              onClick={this.props.closeNote}
               title="Back"
             />
           </div>
@@ -145,7 +146,7 @@ export class NoteToolbar extends Component<Props> {
         <div className="note-toolbar__column-left">
           <IconButton
             icon={<BackIcon />}
-            onClick={this.props.onCloseNote}
+            onClick={this.props.closeNote}
             title="Back"
           />
         </div>
@@ -182,6 +183,7 @@ const mapStateToProps: S.MapState<StateProps> = ({
 });
 
 const mapDispatchToProps: S.MapDispatch<DispatchProps> = dispatch => ({
+  closeNote: () => dispatch(closeNote()),
   toggleEditMode: () => dispatch(toggleEditMode()),
 });
 
