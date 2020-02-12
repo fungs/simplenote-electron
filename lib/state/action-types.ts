@@ -61,6 +61,7 @@ export type ToggleSimperiumConnectionStatus = Action<
   'SIMPERIUM_CONNECTION_STATUS_TOGGLE',
   { simperiumConnected: boolean }
 >;
+export type ToggleRevisions = Action<'REVISIONS_TOGGLE'>;
 export type ToggleTagDrawer = Action<'TAG_DRAWER_TOGGLE', { show: boolean }>;
 export type SelectNote = Action<'SELECT_NOTE', { note: T.NoteEntity }>;
 
@@ -83,6 +84,7 @@ export type ActionType =
   | SetTheme
   | SetUnsyncedNoteIds
   | SetWPToken
+  | ToggleRevisions
   | ToggleSimperiumConnectionStatus
   | ToggleTagDrawer;
 
@@ -180,7 +182,6 @@ type LegacyAction =
   | Action<'App.selectTagAndSElectFirstNote'>
   | Action<'App.selectTrash'>
   | Action<'App.setEditorMode', { mode: T.EditorMode }>
-  | Action<'App.setIsViewingRevisions', { isReviewingRevisions: boolean }>
   | Action<'App.setRevision', { revision: T.NoteEntity }>
   | Action<'App.setSearchFocus', { searchFocus: boolean }>
   | Action<'App.setShouldPrintNote', { shouldPrint: boolean }>

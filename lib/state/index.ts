@@ -31,7 +31,6 @@ export type AppState = {
   editorMode: T.EditorMode;
   editingTags: boolean;
   filter: string;
-  isViewingRevisions: boolean;
   listTitle: T.TranslatableString;
   nextDialogKey: number;
   notes: T.NoteEntity[] | null;

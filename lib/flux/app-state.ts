@@ -43,7 +43,6 @@ const initialState: AppState = {
   listTitle: 'All Notes',
   showNavigation: false,
   showNoteInfo: false,
-  isViewingRevisions: false,
   editingTags: false,
   dialogs: [],
   nextDialogKey: 0,
@@ -319,12 +318,6 @@ export const actionMap = new ActionMap({
     setRevision(state: AppState, { revision }) {
       return update(state, {
         revision: { $set: revision },
-      });
-    },
-
-    setIsViewingRevisions(state: AppState, { isViewingRevisions }) {
-      return update(state, {
-        isViewingRevisions: { $set: isViewingRevisions },
       });
     },
 

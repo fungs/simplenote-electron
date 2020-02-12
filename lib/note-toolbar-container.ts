@@ -35,7 +35,7 @@ type DispatchProps = {
   noteRevisions: (args: NoteChanger) => any;
   restoreNote: (args: ListChanger) => any;
   setEditorMode: ({ mode }: { mode: T.EditorMode }) => any;
-  setIsViewingRevisions: (isViewingRevisions: boolean) => any;
+  toggleRevisions: () => any;
   shareNote: () => any;
   toggleFocusMode: () => any;
   toggleNoteInfo: () => any;
@@ -110,7 +110,6 @@ export class NoteToolbarContainer extends Component<Props> {
       onShowRevisions: this.onShowRevisions,
       onShareNote: this.onShareNote,
       onTrashNote: this.onTrashNote,
-      setIsViewingRevisions: this.props.setIsViewingRevisions,
       toggleFocusMode: this.props.toggleFocusMode,
     };
 
@@ -128,9 +127,9 @@ export class NoteToolbarContainer extends Component<Props> {
 
 const mapStateToProps: S.MapState<StateProps> = ({
   appState,
-  ui: { filteredNotes, note },
+  ui: { filteredNotes, note, visiblePanes },
 }) => ({
-  isViewingRevisions: appState.isViewingRevisions,
+  isViewingRevisions: visiblePanes.has('revisions'),
   editorMode: appState.editorMode,
   notes: filteredNotes,
   revisionOrNote: appState.revision || note,
@@ -142,7 +141,6 @@ const {
   noteRevisions,
   restoreNote,
   setEditorMode,
-  setIsViewingRevisions,
   showDialog,
   toggleNoteInfo,
   trashNote,
@@ -154,9 +152,6 @@ const mapDispatchToProps: S.MapDispatch<DispatchProps> = dispatch => ({
   noteRevisions: args => dispatch(noteRevisions(args)),
   restoreNote: args => dispatch(restoreNote(args)),
   setEditorMode: args => dispatch(setEditorMode(args)),
-  setIsViewingRevisions: (isViewingRevisions: boolean) => {
-    dispatch(setIsViewingRevisions({ isViewingRevisions }));
-  },
   shareNote: () => dispatch(showDialog({ dialog: DialogTypes.SHARE })),
   toggleFocusMode: () => dispatch(toggleFocusMode()),
   toggleNoteInfo: () => dispatch(toggleNoteInfo()),

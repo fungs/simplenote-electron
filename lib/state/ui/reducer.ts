@@ -1,9 +1,8 @@
-import { difference, union } from 'lodash';
-import { AnyAction, combineReducers } from 'redux';
+import { combineReducers } from 'redux';
 import * as A from '../action-types';
 import * as T from '../../types';
 
-const defaultVisiblePanes = ['editor', 'noteList'];
+const defaultVisiblePanes = new Set(['editor', 'noteList']);
 const emptyList: unknown[] = [];
 
 const filteredNotes: A.Reducer<T.NoteEntity[]> = (
@@ -21,17 +20,32 @@ const simperiumConnected: A.Reducer<boolean> = (state = false, action) =>
     ? action.simperiumConnected
     : state;
 
-const visiblePanes: A.Reducer<string[]> = (
+const visiblePanes: A.Reducer<Set<string>> = (
   state = defaultVisiblePanes,
   action
 ) => {
-  if ('TAG_DRAWER_TOGGLE' === action.type) {
-    return action.show
-      ? union(state, ['tagDrawer'])
-      : difference(state, ['tagDrawer']);
+  switch (action.type) {
+    case 'REVISIONS_TOGGLE': {
+      if (state.has('revisions')) {
+        const newSet = new Set(state);
+        newSet.delete('revisions');
+        return newSet;
+      } else {
+        return new Set(state).add('revisions');
+      }
+    }
+    case 'TAG_DRAWER_TOGGLE': {
+      if (action.show) {
+        return new Set(state).add('tagDrawer');
+      } else {
+        const newSet = new Set(state);
+        newSet.delete('tagDrawer');
+        return newSet;
+      }
+    }
+    default:
+      return state;
   }
-
-  return state;
 };
 
 const note: A.Reducer<T.NoteEntity | null> = (state = null, action) => {

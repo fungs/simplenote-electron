@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 
@@ -12,15 +12,20 @@ import RevisionsIcon from '../icons/revisions';
 import TrashIcon from '../icons/trash';
 import ShareIcon from '../icons/share';
 import SidebarIcon from '../icons/sidebar';
+import { toggleRevisions } from '../state/ui/actions';
 
 import * as S from '../state';
 import * as T from '../types';
+
+type DispatchProps = {
+  toggleRevisions: () => any;
+};
 
 type StateProps = {
   note: T.NoteEntity | null;
 };
 
-type Props = StateProps;
+type Props = DispatchProps & StateProps;
 
 export class NoteToolbar extends Component<Props> {
   static displayName = 'NoteToolbar';
@@ -29,11 +34,9 @@ export class NoteToolbar extends Component<Props> {
     onRestoreNote: PropTypes.func,
     onTrashNote: PropTypes.func,
     onDeleteNoteForever: PropTypes.func,
-    onShowRevisions: PropTypes.func,
     onShareNote: PropTypes.func,
     onCloseNote: PropTypes.func,
     onShowNoteInfo: PropTypes.func,
-    setIsViewingRevisions: PropTypes.func,
     toggleFocusMode: PropTypes.func.isRequired,
     onSetEditorMode: PropTypes.func,
     editorMode: PropTypes.string,
@@ -47,16 +50,9 @@ export class NoteToolbar extends Component<Props> {
     onRestoreNote: noop,
     onSetEditorMode: noop,
     onShowNoteInfo: noop,
-    onShowRevisions: noop,
     onShareNote: noop,
     onTrashNote: noop,
-    setIsViewingRevisions: noop,
     toggleFocusMode: noop,
-  };
-
-  showRevisions = () => {
-    this.props.setIsViewingRevisions(true);
-    this.props.onShowRevisions(this.props.note);
   };
 
   render() {
@@ -113,7 +109,7 @@ export class NoteToolbar extends Component<Props> {
           <div className="note-toolbar__button">
             <IconButton
               icon={<RevisionsIcon />}
-              onClick={this.showRevisions}
+              onClick={this.props.toggleRevisions}
               title="History"
             />
           </div>
@@ -180,8 +176,12 @@ export class NoteToolbar extends Component<Props> {
   };
 }
 
+const mapDispatchToProps: S.MapDispatch<DispatchProps> = dispatch => ({
+  toggleRevisions: () => dispatch(toggleRevisions()),
+});
+
 const mapStateToProps: S.MapState<StateProps> = ({ ui: { note } }) => ({
   note,
 });
 
-export default connect(mapStateToProps)(NoteToolbar);
+export default connect(mapStateToProps, mapDispatchToProps)(NoteToolbar);
