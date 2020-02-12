@@ -1,9 +1,7 @@
-import { difference, union } from 'lodash';
 import { combineReducers } from 'redux';
 import * as A from '../action-types';
 import * as T from '../../types';
 
-const defaultVisiblePanes = ['editor', 'noteList'];
 const emptyList: unknown[] = [];
 
 const editMode: A.Reducer<boolean> = (state = true, action) => {
@@ -52,17 +50,20 @@ const simperiumConnected: A.Reducer<boolean> = (state = false, action) =>
     ? action.simperiumConnected
     : state;
 
-const visiblePanes: A.Reducer<string[]> = (
-  state = defaultVisiblePanes,
-  action
-) => {
-  if ('TAG_DRAWER_TOGGLE' === action.type) {
-    return action.show
-      ? union(state, ['tagDrawer'])
-      : difference(state, ['tagDrawer']);
+const trash: A.Reducer<boolean> = (state = false, action) => {
+  switch (action.type) {
+    case 'App.selectTrash':
+      return true;
+    case 'CREATE_NOTE':
+    case 'App.selectTag':
+    case 'App.showAllNotes': {
+      return false;
+    }
+    case 'TRASH_TOGGLE':
+      return !state;
+    default:
+      return state;
   }
-
-  return state;
 };
 
 const note: A.Reducer<T.NoteEntity | null> = (state = null, action) => {
@@ -93,6 +94,6 @@ export default combineReducers({
   note,
   searchQuery,
   simperiumConnected,
+  trash,
   unsyncedNoteIds,
-  visiblePanes,
 });

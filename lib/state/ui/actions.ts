@@ -45,3 +45,7 @@ export const toggleTagDrawer: A.ActionCreator<A.ToggleTagDrawer> = (
   type: 'TAG_DRAWER_TOGGLE',
   show,
 });
+
+export const toggleTrash: A.ActionCreator<A.ToggleTrash> = () => ({
+  type: 'TRASH_TOGGLE',
+});

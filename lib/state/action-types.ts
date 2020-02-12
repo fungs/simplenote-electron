@@ -65,6 +65,7 @@ export type ToggleSimperiumConnectionStatus = Action<
 >;
 export type ToggleEditMode = Action<'TOGGLE_EDIT_MODE'>;
 export type ToggleTagDrawer = Action<'TAG_DRAWER_TOGGLE', { show: boolean }>;
+export type ToggleTrash = Action<'TRASH_TOGGLE'>;
 export type SelectNote = Action<'SELECT_NOTE', { note: T.NoteEntity }>;
 
 export type ActionType =
@@ -90,7 +91,8 @@ export type ActionType =
   | SetWPToken
   | ToggleEditMode
   | ToggleSimperiumConnectionStatus
-  | ToggleTagDrawer;
+  | ToggleTagDrawer
+  | ToggleTrash;
 
 export type ActionCreator<A extends ActionType> = (...args: any[]) => A;
 export type Reducer<S> = (state: S | undefined, action: ActionType) => S;

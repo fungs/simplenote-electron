@@ -37,7 +37,6 @@ const initialState: AppState = {
   notes: null,
   tags: [],
   revision: null,
-  showTrash: false,
   showNavigation: false,
   showNoteInfo: false,
   isViewingRevisions: false,
@@ -91,7 +90,6 @@ export const actionMap = new ActionMap({
       return update(state, {
         showNavigation: { $set: false },
         editingTags: { $set: false },
-        showTrash: { $set: false },
         tag: { $set: null },
         previousIndex: { $set: -1 },
       });
@@ -101,7 +99,6 @@ export const actionMap = new ActionMap({
       return update(state, {
         showNavigation: { $set: false },
         editingTags: { $set: false },
-        showTrash: { $set: true },
         tag: { $set: null },
         previousIndex: { $set: -1 },
       });
@@ -124,7 +121,6 @@ export const actionMap = new ActionMap({
       return update(state, {
         showNavigation: { $set: false },
         editingTags: { $set: false },
-        showTrash: { $set: false },
         tag: { $set: tag },
         previousIndex: { $set: -1 },
       });
@@ -189,10 +185,6 @@ export const actionMap = new ActionMap({
         return (dispatch, getState: () => State) => {
           const { appState: state, settings } = getState();
           const timestamp = new Date().getTime() / 1000;
-
-          if (state.showTrash) {
-            dispatch(this.action('showAllNotes'));
-          }
 
           // insert a new note into the store and select it
           noteBucket.add(

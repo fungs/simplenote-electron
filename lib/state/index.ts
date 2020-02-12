@@ -40,7 +40,6 @@ export type AppState = {
   searchFocus: boolean;
   showNavigation: boolean;
   showNoteInfo: boolean;
-  showTrash: boolean;
   tags: T.TagEntity[];
   tag?: T.TagEntity;
   unsyncedNoteIds: T.EntityId[];
